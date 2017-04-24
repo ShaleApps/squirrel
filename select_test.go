@@ -173,3 +173,14 @@ func TestSetColumns(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "SELECT biz, baz FROM foo", sql)
 }
+
+func TestSetOrderBy(t *testing.T) {
+	builder := Select("blarg").From("foo").OrderBy("id")
+	sql, _, err := builder.ToSql()
+	assert.NoError(t, err)
+	assert.Equal(t, "SELECT blarg FROM foo ORDER BY id", sql)
+
+	sql, _, err = builder.SetOrderBy("blarg.id").ToSql()
+	assert.NoError(t, err)
+	assert.Equal(t, "SELECT blarg FROM foo ORDER BY blarg.id", sql)
+}

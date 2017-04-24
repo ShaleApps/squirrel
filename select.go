@@ -297,9 +297,15 @@ func (b SelectBuilder) Having(pred interface{}, rest ...interface{}) SelectBuild
 	return builder.Append(b, "HavingParts", newWherePart(pred, rest...)).(SelectBuilder)
 }
 
-// OrderBy adds ORDER BY expressions to the query.
+// SetColumns sets the columns in the query.
 func (b SelectBuilder) OrderBy(orderBys ...string) SelectBuilder {
 	return builder.Extend(b, "OrderBys", orderBys).(SelectBuilder)
+
+}
+
+// OrderBy adds ORDER BY expressions to the query.
+func (b SelectBuilder) SetOrderBy(orderBys ...string) SelectBuilder {
+	return builder.Delete(b, "OrderBys").(SelectBuilder).OrderBy(orderBys...)
 }
 
 // Limit sets a LIMIT clause on the query.
